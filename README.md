@@ -1,6 +1,6 @@
 # chat_socket
 
-A new Flutter project.
+make register logic 
 
 ## Getting Started
 
