@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/class/status_request.dart';
-
+import '../../../../core/helpers/functions/handling_data.dart';
+import '../../../../core/routing/routes.dart';
+import '../data/register_data.dart';
 
 abstract class RegisterController extends GetxController {
   goToRegister();
@@ -18,42 +20,40 @@ class RegisterControllerImpl extends RegisterController {
   RegisterData registerData = RegisterData(Get.find());
   GlobalKey<FormState> formState = GlobalKey<FormState>();
   @override
-  goToRegister()async {
+  goToRegister() async {
     if (formState.currentState!.validate()) {
       statusRequest = StatusRequest.loading;
       update();
-      var response =
-      await registerData.registerData(email.text, password.text, name.text);
+      var response = await registerData.registerData(
+          email.text, password.text, firstname.text, lastname.text);
       print("=============================== Controller $response ");
       statusRequest = handlingData(response);
       if (StatusRequest.success == statusRequest) {
         if (response['status'] == 'success') {
           print("=============================== $statusRequest");
-          Get.offNamed(AppRouter.verifyCodeSignUp,
-              arguments: {"email": email.text});
-        }else {
+        } else {
           Get.defaultDialog(
-              title:  "Warning",
-              middleText: "Phone Number Or Email Already Was Taken");
+              title: "Warning", middleText: "Email Already Was Taken");
           statusRequest = StatusRequest.failure;
         }
       }
       update();
-    }
-    else{}
+    } else {}
   }
 
   @override
   goToLogin() {
-    Get.offNamed(AppRouter.login);
+    Get.offNamed(AppRouter.loginScreen);
   }
 
-
+  @override
   @override
   void onInit() {
+    print('Controller initialized');
     email = TextEditingController();
     password = TextEditingController();
-    name = TextEditingController();
+    firstname = TextEditingController();
+    lastname = TextEditingController();
 
     super.onInit();
   }
@@ -62,7 +62,8 @@ class RegisterControllerImpl extends RegisterController {
   void dispose() {
     email.dispose();
     password.dispose();
-    name.dispose();
+    firstname.dispose();
+    lastname.dispose();
 
     super.dispose();
   }
