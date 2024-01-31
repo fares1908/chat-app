@@ -1,6 +1,6 @@
 # chat_socket
 
-make register logic 
+make login logic 
 
 ## Getting Started
 
