@@ -1,3 +1,4 @@
+import 'package:chat_socket/core/class/handling_data_view.dart';
 import 'package:chat_socket/core/routing/routes.dart';
 import 'package:chat_socket/core/theming/colors.dart';
 import 'package:chat_socket/core/theming/syles.dart';
@@ -23,7 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     Get.put(RegisterControllerImpl());
     return Scaffold(
       body: GetBuilder<RegisterControllerImpl>(
-        builder: (controller) =>  SafeArea(
+        builder: (controller) => SafeArea(
           child: Padding(
             padding: EdgeInsets.only(top: 80.h, left: 10.w, right: 10.w),
             child: Form(
@@ -66,7 +67,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       text: 'First name',
                                       isNumber: false,
                                       valid: (val) {
-                                        return validInput(val!, 3, 15, "First name");
+                                        return validInput(
+                                            val!, 3, 15, "First name");
                                       },
                                     ),
                                   ),
@@ -79,7 +81,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       text: 'Last name',
                                       isNumber: false,
                                       valid: (val) {
-                                        return validInput(val!, 3, 15, "Last name");
+                                        return validInput(
+                                            val!, 3, 15, "Last name");
                                       },
                                     ),
                                   ),
@@ -93,10 +96,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 text: 'Enter your email',
                                 prefixIcon: Icons.email_outlined,
                                 isNumber: false,
-                                  valid: (val) {
-                                    return validInput(val!, 3, 115, "Email");
-                                  },
-
+                                valid: (val) {
+                                  return validInput(val!, 3, 115, "Email");
+                                },
                               ),
                               SizedBox(
                                 height: 12.h,
@@ -116,10 +118,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 },
                                 isNumber: false,
                                 valid: (val) {
-                                  return validInput(val!, 5, 15, "Password");
+                                  return validInput(
+                                      val!, 5, 15, "Password");
                                 },
                               ),
-
                               SizedBox(
                                 height: 12.h,
                               ),
@@ -134,12 +136,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       borderSide: const BorderSide(
                                         color: ColorsManager.mainBlue,
                                       ),
-                                      borderRadius: BorderRadius.circular(16),
+                                      borderRadius:
+                                      BorderRadius.circular(16),
                                     ),
                                     height: 45,
                                     minWidth: double.infinity,
-                                    onPressed: () {
-                                      controller.goToRegister();
+                                    onPressed: () async {
+                                      await controller.goToRegister();
                                     },
                                     child: const Text(
                                       'Sign Up',
@@ -189,7 +192,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
         ),
-
       ),
     );
   }

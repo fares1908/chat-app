@@ -4,13 +4,13 @@ import 'package:chat_socket/features/auth/login/ui/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-import 'core/routing/routes.dart';
+import 'core/class/my_services.dart';
 import 'core/theming/colors.dart';
 
-void main() {
-  runApp(MyApp(
-  ));
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await initialServices();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -27,9 +27,9 @@ class MyApp extends StatelessWidget {
         getPages: routes,
         theme: ThemeData(
             primaryColor: ColorsManager.mainBlue,
+            useMaterial3: false,
             scaffoldBackgroundColor: Colors.white),
         debugShowCheckedModeBanner: false,
-
       ),
     );
   }
