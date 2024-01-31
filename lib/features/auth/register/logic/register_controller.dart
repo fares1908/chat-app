@@ -17,7 +17,13 @@ class RegisterControllerImpl extends RegisterController {
   late TextEditingController lastname;
   StatusRequest statusRequest = StatusRequest.none;
   RegisterData registerData = RegisterData(Get.find());
+  IconData showPasswordIcon = Icons.visibility_off_outlined;
   GlobalKey<FormState> formState = GlobalKey<FormState>();
+  bool isObscureText = true;
+  changeIsShowPassword() {
+    isObscureText= !isObscureText;
+    update();
+  }
   @override
   goToLogin() {
     Get.offNamed(AppRouter.loginScreen);
