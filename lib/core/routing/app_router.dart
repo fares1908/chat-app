@@ -32,12 +32,14 @@ import 'package:get/get.dart';
 
 import '../../features/auth/login/ui/login_screen.dart';
 import '../../features/auth/register/ui/register_screen.dart';
+import '../../features/home/ui/home_screen.dart';
 import '../class/my_middel_ware.dart';
 import 'routes.dart';
 
 List<GetPage<dynamic>> ?routes=[
-  GetPage(name: '/' , page:() =>LoginScreen(),middlewares:[
+  GetPage(name: '/' , page:() =>const LoginScreen(),middlewares:[
       MyMiddleWare()
 ]),
-  GetPage(name: AppRouter.registerScreen, page:() =>  RegisterScreen()),
+  GetPage(name: AppRouter.registerScreen, page:() =>  const RegisterScreen()),
+  GetPage(name: AppRouter.homeScreen, page:() =>  HomeScreen()),
 ];
