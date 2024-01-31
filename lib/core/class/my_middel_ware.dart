@@ -7,7 +7,7 @@ import 'my_services.dart';
 
 class MyMiddleWare extends GetMiddleware {
   @override
-  int get priority => 1;
+  int get priority => 0;
 
   MyServices myServices = Get.find();
 
@@ -18,6 +18,7 @@ class MyMiddleWare extends GetMiddleware {
     if (token != null && !JwtDecoder.isExpired(token)) {
       return const RouteSettings(name: AppRouter.homeScreen);
     } else {
+      // No token or expired token, redirect to login screen
       return const RouteSettings(name: AppRouter.loginScreen);
     }
   }

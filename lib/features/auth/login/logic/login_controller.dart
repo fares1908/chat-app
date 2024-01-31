@@ -17,9 +17,14 @@ class LoginControllerImpl extends LoginController {
   MyServices myServices =Get.find();
   LoginData loginData = LoginData(Get.find());
   GlobalKey<FormState> formState = GlobalKey<FormState>();
-  bool isObscureText = true;
-  changeIsShowPassword() {
-    isObscureText= !isObscureText;
+  IconData showPasswordIcon = Icons.visibility_off_outlined;
+  bool isShowPassword = true;
+
+  void toggleShowPassword() {
+    isShowPassword = !isShowPassword;
+    showPasswordIcon = isShowPassword
+        ? Icons.visibility_off_outlined
+        : Icons.visibility_outlined;
     update();
   }
   @override

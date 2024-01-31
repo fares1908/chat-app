@@ -1,5 +1,6 @@
 import 'package:chat_socket/core/class/initial_binding.dart';
 import 'package:chat_socket/core/routing/app_router.dart';
+import 'package:chat_socket/core/routing/routes.dart';
 import 'package:chat_socket/features/auth/login/ui/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

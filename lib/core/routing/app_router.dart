@@ -37,9 +37,9 @@ import '../class/my_middel_ware.dart';
 import 'routes.dart';
 
 List<GetPage<dynamic>> ?routes=[
-  GetPage(name: '/' , page:() =>const LoginScreen(),middlewares:[
-      MyMiddleWare()
-]),
+  GetPage(name: '/' , page:() =>const LoginScreen(),middlewares: [
+    MyMiddleWare()
+  ]),
   GetPage(name: AppRouter.registerScreen, page:() =>  const RegisterScreen()),
   GetPage(name: AppRouter.homeScreen, page:() =>  HomeScreen()),
 ];

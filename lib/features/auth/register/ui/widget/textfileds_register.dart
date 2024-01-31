@@ -7,12 +7,20 @@ import '../../../../../core/helpers/functions/valid_Input.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../widgets/textfild_auth.dart';
 
-class TextFieldRegister extends GetView<RegisterControllerImpl> {
-  const TextFieldRegister({super.key});
+class TextFieldRegister extends StatefulWidget {
+  const TextFieldRegister({Key? key}) : super(key: key);
+
+  @override
+  _TextFieldRegisterState createState() => _TextFieldRegisterState();
+}
+
+class _TextFieldRegisterState extends State<TextFieldRegister> {
+  bool isObscureText = true;
+  final RegisterControllerImpl controller = Get.put(RegisterControllerImpl());
 
   @override
   Widget build(BuildContext context) {
-    return             Padding(
+    return Padding(
       padding: EdgeInsets.all(15.h),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -26,8 +34,7 @@ class TextFieldRegister extends GetView<RegisterControllerImpl> {
                   text: 'First name',
                   isNumber: false,
                   valid: (val) {
-                    return validInput(
-                        val!, 3, 15, "First name");
+                    return validInput(val!, 3, 15, "First name");
                   },
                 ),
               ),
@@ -40,8 +47,7 @@ class TextFieldRegister extends GetView<RegisterControllerImpl> {
                   text: 'Last name',
                   isNumber: false,
                   valid: (val) {
-                    return validInput(
-                        val!, 3, 15, "Last name");
+                    return validInput(val!, 3, 15, "Last name");
                   },
                 ),
               ),
@@ -65,18 +71,19 @@ class TextFieldRegister extends GetView<RegisterControllerImpl> {
           CustomTextField(
             controller: controller.password,
             prefixIcon: Icons.lock_outline,
-            suffixIcon: controller.isObscureText
+            suffixIcon: isObscureText
                 ? Icons.visibility_off_outlined
                 : Icons.visibility_outlined,
             text: 'Enter your password',
-            obscureText:controller.isObscureText,
+            obscureText: isObscureText,
             onTapIcon: () {
-           controller.changeIsShowPassword();
+              setState(() {
+                isObscureText = !isObscureText;
+              });
             },
             isNumber: false,
             valid: (val) {
-              return validInput(
-                  val!, 5, 15, "Password");
+              return validInput(val!, 5, 15, "Password");
             },
           ),
           SizedBox(
@@ -93,8 +100,7 @@ class TextFieldRegister extends GetView<RegisterControllerImpl> {
                   borderSide: const BorderSide(
                     color: ColorsManager.mainBlue,
                   ),
-                  borderRadius:
-                  BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 height: 45,
                 minWidth: double.infinity,

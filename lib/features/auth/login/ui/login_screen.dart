@@ -12,15 +12,9 @@ import '../../widgets/title_auth.dart';
 import '../logic/login_controller.dart';
 import 'widget/textfiled_login.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  bool isObscureText = true;
   @override
   Widget build(BuildContext context) {
     Get.put(LoginControllerImpl());

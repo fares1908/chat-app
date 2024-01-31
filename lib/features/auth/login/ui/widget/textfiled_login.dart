@@ -1,4 +1,4 @@
-import 'package:chat_socket/features/auth/register/logic/register_controller.dart';
+import 'package:chat_socket/features/auth/login/logic/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -6,14 +6,21 @@ import 'package:get/get.dart';
 import '../../../../../core/helpers/functions/valid_Input.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../widgets/textfild_auth.dart';
-import '../../logic/login_controller.dart';
 
-class TextFieldLogin extends GetView<LoginControllerImpl> {
-  const TextFieldLogin({super.key});
+class TextFieldLogin extends StatefulWidget {
+  const TextFieldLogin({Key? key}) : super(key: key);
+
+  @override
+  State<TextFieldLogin> createState() => _TextFieldLoginState();
+}
+
+class _TextFieldLoginState extends State<TextFieldLogin> {
+  bool isObscureText = true;
+  final LoginControllerImpl controller = Get.put(LoginControllerImpl());
 
   @override
   Widget build(BuildContext context) {
-    return             Padding(
+    return Padding(
       padding: EdgeInsets.all(15.h),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -34,18 +41,19 @@ class TextFieldLogin extends GetView<LoginControllerImpl> {
           CustomTextField(
             controller: controller.password,
             prefixIcon: Icons.lock_outline,
-            suffixIcon: controller.isObscureText
+            suffixIcon: isObscureText
                 ? Icons.visibility_off_outlined
                 : Icons.visibility_outlined,
             text: 'Enter your password',
-            obscureText:controller.isObscureText,
+            obscureText: isObscureText,
             onTapIcon: () {
-              controller.changeIsShowPassword();
+              setState(() {
+                isObscureText = !isObscureText;
+              });
             },
             isNumber: false,
             valid: (val) {
-              return validInput(
-                  val!, 5, 15, "Password");
+              return validInput(val!, 5, 15, "Password");
             },
           ),
           SizedBox(
@@ -62,8 +70,7 @@ class TextFieldLogin extends GetView<LoginControllerImpl> {
                   borderSide: const BorderSide(
                     color: ColorsManager.mainBlue,
                   ),
-                  borderRadius:
-                  BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 height: 45,
                 minWidth: double.infinity,
