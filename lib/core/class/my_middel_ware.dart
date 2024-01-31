@@ -1,25 +1,24 @@
-
-import 'package:chat_socket/core/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
-
+import '../routing/routes.dart';
 import 'my_services.dart';
-
 
 class MyMiddleWare extends GetMiddleware {
   @override
-  int? get priority => 0;
-  MyServices  myServices=Get.find();
-  @override
-  RouteSettings ?redirect(String ? route)
-  {
-    // if(myServices.sharedPreferences.getString("step")=="2"){
-    //   return const RouteSettings(name: AppRouter.home );
-    // }
-    // if (myServices.sharedPreferences.getString("step")=="1"){
-    //   return const RouteSettings(name: AppRouter.login);
-    // }
-  }
+  int get priority => 1;
 
+  MyServices myServices = Get.find();
+
+  @override
+  RouteSettings? redirect(String? route) {
+    final token = myServices.sharedPreferences.getString("token");
+
+    if (token != null && !JwtDecoder.isExpired(token)) {
+      return const RouteSettings(name: AppRouter.homeScreen);
+    } else {
+      return const RouteSettings(name: AppRouter.loginScreen);
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:chat_socket/features/auth/login/data/login_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../core/class/my_services.dart';
 import '../../../../core/class/status_request.dart';
 import '../../../../core/helpers/functions/handling_data.dart';
 import '../../../../core/routing/routes.dart';
@@ -13,6 +14,7 @@ class LoginControllerImpl extends LoginController {
   late TextEditingController email;
   late TextEditingController password;
   StatusRequest statusRequest = StatusRequest.none;
+  MyServices myServices =Get.find();
   LoginData loginData = LoginData(Get.find());
   GlobalKey<FormState> formState = GlobalKey<FormState>();
   bool isObscureText = true;
@@ -34,6 +36,9 @@ class LoginControllerImpl extends LoginController {
         statusRequest = handlingData(response);
         if (StatusRequest.success == statusRequest) {
           if (response['status'] == 'success') {
+            myServices.sharedPreferences
+                .setString('token', response['data']['token']);
+            print(response['data']['token']);
             Get.offNamed(AppRouter.homeScreen); // Registration success logic
             print("=============================== $statusRequest");
           } else {
