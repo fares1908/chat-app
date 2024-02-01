@@ -43,6 +43,10 @@ class LoginControllerImpl extends LoginController {
           if (response['status'] == 'success') {
             myServices.sharedPreferences
                 .setString('token', response['data']['token']);
+            myServices.sharedPreferences
+                .setString('email', response['data']['user']['email']);
+            myServices.sharedPreferences
+                .setString('username', response['data']['user']['userName']);
             print(response['data']['token']);
             Get.offNamed(AppRouter.homeScreen); // Registration success logic
             print("=============================== $statusRequest");

@@ -8,9 +8,17 @@ import 'package:get/get.dart';
 import 'core/class/my_services.dart';
 import 'core/theming/colors.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initialServices();
+
+  // Put MyServices into the GetX system
+  Get.put(MyServices());
+
+  // Now you can find it
+  MyServices myServices = Get.find();
+  print(myServices.sharedPreferences.getString('token'));
+
   runApp(MyApp());
 }
 
