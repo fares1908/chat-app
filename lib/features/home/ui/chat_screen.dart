@@ -15,7 +15,17 @@ class ChatScreen extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) => ListTile(
-                subtitle: const Text('fares'),
+                subtitle: Row(
+                  children: [
+                    Icon(Icons.done_all,
+                    size: 17,
+                    ),
+                    SizedBox(
+                      width: 5.w,
+                    ),
+                    const Text('fares'),
+                  ],
+                ),
                 leading: const CircleAvatar(
                   radius: 30,
                   backgroundColor: Colors.black,
@@ -26,18 +36,21 @@ class ChatScreen extends StatelessWidget {
                     size: 15,
                   ),
                 ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Item $index',
-                      style: TextStyles.font16semiBoldBlack,
-                    ),
-                    Text(
-                      '2min ago',
-                      style: TextStyles.font12mediumGray,
-                    ),
-                  ],
+                title: Padding(
+                  padding:  EdgeInsets.only(bottom: 15.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Item $index',
+                        style: TextStyles.font16semiBoldBlack,
+                      ),
+                      Text(
+                        '2min ago',
+                        style: TextStyles.font12mediumGray,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               separatorBuilder: (context, index) => const Divider(),
