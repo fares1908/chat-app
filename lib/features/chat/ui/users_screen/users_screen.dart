@@ -37,8 +37,11 @@ class UserScreen extends StatelessWidget {
                                 backgroundColor: Colors.black,
                                 child: ClipOval(
                                   child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    width: 50,
+                                    height: 50,
                                     imageUrl:
-                                        '${AppLink.server}/${controller.data[index].avatar}',
+                                        '${AppLink.server}/uploads/${controller.data[index].avatar}',
                                     progressIndicatorBuilder:
                                         (context, url, progress) => Center(
                                       child: CircularProgressIndicator(

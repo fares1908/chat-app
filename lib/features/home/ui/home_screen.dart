@@ -26,11 +26,14 @@ class HomeScreen extends GetView<HomeController> {
               InkWell(
                 child: CircleAvatar(
                   radius: 25,
-                  backgroundColor: Colors.black,
+                  // backgroundColor: Colors.black,
                   child: ClipOval(
                     child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      width: 50,
+                      height: 50,
                       imageUrl:
-                      '${AppLink.server}/${controller.services.sharedPreferences.getString('userImage')}',
+                      '${AppLink.server}/uploads/${controller.services.sharedPreferences.getString('userImage')}',
                       progressIndicatorBuilder: (context, url, progress) => Center(
                         child: CircularProgressIndicator(
                           value: progress.progress,

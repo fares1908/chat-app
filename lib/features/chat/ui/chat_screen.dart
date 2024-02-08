@@ -65,8 +65,11 @@ class ChatScreen extends StatelessWidget {
           backgroundColor: Colors.black,
           child: ClipOval(
             child: CachedNetworkImage(
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
               imageUrl:
-              '${AppLink.server}/${userModel.avatar}',
+              '${AppLink.server}/uploads/${userModel.avatar}',
               progressIndicatorBuilder:
                   (context, url, progress) => Center(
                 child: CircularProgressIndicator(

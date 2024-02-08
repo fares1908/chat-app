@@ -7,7 +7,7 @@ class RegisterData{
   RegisterData(this.crud);
  registerData(String email, String password, String firstName, String lastName) async {
    try {
-     var response = await crud.postData('${AppLink.server}/api/users/register', {
+     var response = await crud.postData(AppLink.register, {
        "email": email,
        "password": password,
        "firstName": firstName,

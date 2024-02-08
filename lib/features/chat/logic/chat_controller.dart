@@ -41,16 +41,7 @@ class ChatController extends GetxController {
    }
   @override
   void onInit() {
-    super.onInit();
     // Add sample data
-    chatItems = List.generate(
-      12,
-      (index) => ChatItem(
-        title: 'Item $index',
-        subtitle: 'fares',
-        time: '2min ago',
-      ),
-    );
     getUser();
     print(data);
   }

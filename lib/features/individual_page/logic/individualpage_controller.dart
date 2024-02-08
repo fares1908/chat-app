@@ -3,10 +3,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
-import 'package:untitled9/core/class/my_services.dart';
-import 'package:untitled9/core/constant/apiLink.dart';
-import 'package:untitled9/features/chat/data/models/user_model.dart';
 
+import '../../../core/class/my_services.dart';
+import '../../chat/data/models/user_model.dart';
 import '../data/model/message_model.dart';
 
 class IndividualPageController extends GetxController {
@@ -17,7 +16,7 @@ class IndividualPageController extends GetxController {
   List<ChatMessage> chatMessages = [];
 
   void initSocket() {
-    socket = io.io(AppLink.server, <String, dynamic>{
+    socket = io.io("https://chatapp-socket-ioo.onrender.com", <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
@@ -25,10 +24,9 @@ class IndividualPageController extends GetxController {
     socket.connect();
     socket.onConnect((data) => print('Connected'));
 
-    // Modify the emit line to include id and targetId
     socket.emit("signIn", {
       "id": myServices.sharedPreferences.getString("id"),
-      "targetId": userModel.id , // Replace with the actual target ID if available
+      "targetId": userModel.id.toString(),
     });
 
     socket.on('message-receive', (data) {
@@ -40,7 +38,7 @@ class IndividualPageController extends GetxController {
 
   void storeReceivedMessage(Map<String, dynamic> messageData) {
     chatMessages.add(ChatMessage.fromJson(messageData));
-    update(); // Update the UI if needed
+    update();
   }
 
   void sendMessage(String message, String targetId) {
@@ -48,9 +46,13 @@ class IndividualPageController extends GetxController {
       'message': message,
       "sendByMe": myServices.sharedPreferences.getString("id"),
       'time': DateFormat('HH:mm').format(DateTime.now()),
-      'targetId': targetId
+      'targetId': targetId,
     };
-    socket.emit('sendMessage', messageJson);
+
+
+    chatMessages.add(ChatMessage.fromJson(messageJson));
+    socket.emit('sendMessage', messageJson);// Add sent message to the list
+    update();
   }
 
   Future<void> openGallery() async {

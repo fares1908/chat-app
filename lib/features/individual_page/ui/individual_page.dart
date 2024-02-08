@@ -4,8 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled9/features/chat/data/models/user_model.dart';
-import 'package:untitled9/features/individual_page/ui/widgets/own_message_card.dart';
-
 import '../../../core/constant/apiLink.dart';
 import '../../../core/theming/colors.dart';
 import '../../../core/theming/syles.dart';
@@ -21,9 +19,7 @@ class IndividualPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(controller.userModel),
-      body: GetBuilder<IndividualPageController>(
-        builder: (controller) => buildBody(context),
-      ),
+      body: buildBody(context),
     );
   }
 
@@ -73,7 +69,10 @@ class IndividualPage extends StatelessWidget {
             backgroundColor: Colors.black,
             child: ClipOval(
               child: CachedNetworkImage(
-                imageUrl: '${AppLink.server}/${userModel.avatar}',
+                width: 40,
+                height: 40,
+                fit: BoxFit.cover,
+                imageUrl: '${AppLink.server}/uploads/${userModel.avatar}',
                 progressIndicatorBuilder: (context, url, progress) => Center(
                   child: CircularProgressIndicator(
                     value: progress.progress,
@@ -88,103 +87,37 @@ class IndividualPage extends StatelessWidget {
     );
   }
 
-  // Widget buildBody(context) {
-  //   return SizedBox(
-  //     height: MediaQuery.of(context).size.height,
-  //     width: MediaQuery.of(context).size.width,
-  //     child: Stack(
-  //       children: [
-  //         SizedBox(
-  //           height: MediaQuery.of(context).size.height - 220.h,
-  //           child: ListView(
-  //             shrinkWrap: true,
-  //             children: const [
-  //               OwnMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //               ReplayMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //               OwnMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //               ReplayMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //               OwnMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //               ReplayMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //               OwnMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //               ReplayMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //               OwnMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //               ReplayMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //               OwnMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //               ReplayMessageCard(
-  //                 message: 'fares',
-  //                 time: '12.05',
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //         buildMessageInput(),
-  //       ],
-  //     ),
-  //   );
-  // }
-  Widget buildBody(context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Stack(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height - 220.h,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: controller.chatMessages.length,
-              itemBuilder: (context, index) {
-                var currentItem = controller.chatMessages[index];
-                var isOwnMessage = currentItem.sendByMe == controller.myServices.sharedPreferences.getString('id');
+  Widget buildBody(BuildContext context) {
+    return GetBuilder<IndividualPageController>(
+      builder: (controller) => SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height - 220.h,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: controller.chatMessages.length,
+                itemBuilder: (context, index) {
+                  var currentItem = controller.chatMessages[index];
+                  var isOwnMessage = currentItem.sendByMe ==
+                      controller.myServices.sharedPreferences.getString('id');
 
-                return MessageWidget(
-                  message: currentItem.message!,
-                  time: currentItem.time!,
-                  isOwnMessage: isOwnMessage,
-                );
-              },
+                  return MessageWidget(
+                    message: currentItem.message ?? '',
+                    time: currentItem.time ?? '',
+                    isOwnMessage: isOwnMessage,
+                  );
+                },
+              ),
             ),
-
-          ),
-          buildMessageInput(),
-        ],
+            buildMessageInput(),
+          ],
+        ),
       ),
     );
   }
-
 
   Widget buildMessageInput() {
     return Align(
@@ -237,8 +170,9 @@ class IndividualPage extends StatelessWidget {
                           ),
                           IconButton(
                             onPressed: () {
-                              controller
-                                  .sendMessage(controller.msgController.text,controller.userModel.id!);
+                              controller.sendMessage(
+                                  controller.msgController.text,
+                                  controller.userModel.id!);
                               controller.msgController.clear();
                             },
                             icon: const Icon(Icons.send),
@@ -328,14 +262,14 @@ class MessageWidget extends StatelessWidget {
   const MessageWidget({
     required this.message,
     required this.time,
-    required this.isOwnMessage ,
+    required this.isOwnMessage,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: isOwnMessage ? 16.0 : 8.0,
+        horizontal: 16.0,
         vertical: 4.0,
       ),
       child: Align(

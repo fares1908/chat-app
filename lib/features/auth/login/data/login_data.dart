@@ -8,7 +8,7 @@ class LoginData{
   LoginData(this.crud);
   loginData(String email, String password) async {
     try {
-      var response = await crud.postData('${AppLink.server}/api/users/login', {
+      var response = await crud.postData(AppLink.login, {
         "email": email,
         "password": password,
       });

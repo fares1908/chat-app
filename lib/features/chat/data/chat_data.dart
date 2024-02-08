@@ -6,7 +6,7 @@ class ChatData{
   ChatData(this.crud);
  getUser(String token )async{
    try {
-     var response = await crud.getDataWithAuthorization('${AppLink.server}/api/users', token);
+     var response = await crud.getDataWithAuthorization(AppLink.getUsers, token);
      return response.fold((l) => l, (r) => r);
    } catch (e) {
      print('Error during login: $e');
