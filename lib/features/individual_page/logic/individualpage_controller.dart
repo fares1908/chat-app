@@ -11,6 +11,7 @@ import '../data/model/message_model.dart';
 class IndividualPageController extends GetxController {
   late io.Socket socket;
   late TextEditingController msgController;
+  ScrollController scrollController=ScrollController();
   MyServices myServices = Get.find();
   late UserModel userModel;
   List<ChatMessage> chatMessages = [];
@@ -48,10 +49,9 @@ class IndividualPageController extends GetxController {
       'time': DateFormat('HH:mm').format(DateTime.now()),
       'targetId': targetId,
     };
-
-
     chatMessages.add(ChatMessage.fromJson(messageJson));
     socket.emit('sendMessage', messageJson);// Add sent message to the list
+        scrollController.animateTo(scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve:Curves.easeOut);
     update();
   }
 

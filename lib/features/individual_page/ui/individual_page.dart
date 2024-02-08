@@ -92,18 +92,24 @@ class IndividualPage extends StatelessWidget {
       builder: (controller) => SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: Stack(
+        child:Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height - 220.h,
+            Expanded(
               child: ListView.builder(
+                controller: controller.scrollController,
+
                 shrinkWrap: true,
-                itemCount: controller.chatMessages.length,
+                itemCount: controller.chatMessages.length+1,
                 itemBuilder: (context, index) {
+                  if( index==controller.chatMessages.length){
+                    return Container(
+                      height: 70,
+                    );
+                  }
                   var currentItem = controller.chatMessages[index];
                   var isOwnMessage = currentItem.sendByMe ==
                       controller.myServices.sharedPreferences.getString('id');
-
+              
                   return MessageWidget(
                     message: currentItem.message ?? '',
                     time: currentItem.time ?? '',
@@ -114,7 +120,7 @@ class IndividualPage extends StatelessWidget {
             ),
             buildMessageInput(),
           ],
-        ),
+        )
       ),
     );
   }
@@ -124,68 +130,70 @@ class IndividualPage extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Expanded(
-              child: Container(
-                width: Get.width - 60,
-                margin: const EdgeInsets.all(10),
-                child: Card(
-                  borderOnForeground: false,
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(13),
-                  ),
-                  child: TextFormField(
-                    controller: controller.msgController,
-                    textAlignVertical: TextAlignVertical.center,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 5,
-                    minLines: 1,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(13),
-                        borderSide: const BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(13),
-                        borderSide: const BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
-                      hintText: 'Message',
-                      prefixIcon: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.emoji_emotions_outlined),
-                      ),
-                      suffixIcon: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              showBottomMenu();
-                            },
-                            icon: const Icon(Icons.camera_alt_outlined),
+        child: Container(
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  width: Get.width - 60,
+                  margin: const EdgeInsets.all(10),
+                  child: Card(
+                    borderOnForeground: false,
+                    shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(13),
+                    ),
+                    child: TextFormField(
+                      controller: controller.msgController,
+                      textAlignVertical: TextAlignVertical.center,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                      minLines: 1,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(13),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
                           ),
-                          IconButton(
-                            onPressed: () {
-                              controller.sendMessage(
-                                  controller.msgController.text,
-                                  controller.userModel.id!);
-                              controller.msgController.clear();
-                            },
-                            icon: const Icon(Icons.send),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(13),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
                           ),
-                        ],
+                        ),
+                        hintText: 'Message',
+                        prefixIcon: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.emoji_emotions_outlined),
+                        ),
+                        suffixIcon: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                showBottomMenu();
+                              },
+                              icon: const Icon(Icons.camera_alt_outlined),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                controller.sendMessage(
+                                    controller.msgController.text,
+                                    controller.userModel.id!);
+                                controller.msgController.clear();
+                              },
+                              icon: const Icon(Icons.send),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            buildMicButton(),
-          ],
+              buildMicButton(),
+            ],
+          ),
         ),
       ),
     );
