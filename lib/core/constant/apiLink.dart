@@ -6,4 +6,5 @@ class AppLink {
       'https://chatapp-socket-ioo.onrender.com/api/users/register';
   static const String getUsers =
       'https://chatapp-socket-ioo.onrender.com/api/users';
+  static const String imagePath ='https://chatapp-socket-ioo.onrender.com/api/users/addimage';
 }

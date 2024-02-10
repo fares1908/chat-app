@@ -11,7 +11,7 @@ import '../logic/individualpage_controller.dart';
 
 class IndividualPage extends StatelessWidget {
   final IndividualPageController controller =
-      Get.put(IndividualPageController());
+  Get.put(IndividualPageController());
 
   IndividualPage({Key? key});
 
@@ -63,7 +63,7 @@ class IndividualPage extends StatelessWidget {
       centerTitle: true,
       actions: [
         Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
             radius: 25,
             backgroundColor: Colors.black,
@@ -78,7 +78,7 @@ class IndividualPage extends StatelessWidget {
                     value: progress.progress,
                   ),
                 ),
-                errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                errorWidget: (context, url, error) => const Icon(Icons.error_outline),
               ),
             ),
           ),
@@ -90,37 +90,37 @@ class IndividualPage extends StatelessWidget {
   Widget buildBody(BuildContext context) {
     return GetBuilder<IndividualPageController>(
       builder: (controller) => SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child:Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                controller: controller.scrollController,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child:Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  controller: controller.scrollController,
 
-                shrinkWrap: true,
-                itemCount: controller.chatMessages.length+1,
-                itemBuilder: (context, index) {
-                  if( index==controller.chatMessages.length){
-                    return Container(
-                      height: 70,
+                  shrinkWrap: true,
+                  itemCount: controller.chatMessages.length+1,
+                  itemBuilder: (context, index) {
+                    if( index==controller.chatMessages.length){
+                      return Container(
+                        height: 70,
+                      );
+                    }
+                    var currentItem = controller.chatMessages[index];
+                    var isOwnMessage = currentItem.sendByMe ==
+                        controller.myServices.sharedPreferences.getString('id');
+
+                    return MessageWidget(
+                      message: currentItem.message ?? '',
+                      time: currentItem.time ?? '',
+                      isOwnMessage: isOwnMessage,
                     );
-                  }
-                  var currentItem = controller.chatMessages[index];
-                  var isOwnMessage = currentItem.sendByMe ==
-                      controller.myServices.sharedPreferences.getString('id');
-              
-                  return MessageWidget(
-                    message: currentItem.message ?? '',
-                    time: currentItem.time ?? '',
-                    isOwnMessage: isOwnMessage,
-                  );
-                },
+                  },
+                ),
               ),
-            ),
-            buildMessageInput(),
-          ],
-        )
+              buildMessageInput(),
+            ],
+          )
       ),
     );
   }
@@ -179,7 +179,9 @@ class IndividualPage extends StatelessWidget {
                               onPressed: () {
                                 controller.sendMessage(
                                     controller.msgController.text,
-                                    controller.userModel.id!);
+                                    controller.userModel.id!,null
+
+                                );
                                 controller.msgController.clear();
                               },
                               icon: const Icon(Icons.send),
@@ -260,17 +262,17 @@ class IndividualPage extends StatelessWidget {
     );
   }
 }
-
 class MessageWidget extends StatelessWidget {
   final String message;
   final String time;
-  final bool
-      isOwnMessage; // Flag to indicate if the message is sent by the user
+  final bool isOwnMessage;
+  final String? imagePath;
 
-  const MessageWidget({
+  MessageWidget({
     required this.message,
     required this.time,
     required this.isOwnMessage,
+    this.imagePath,
   });
 
   @override
@@ -281,7 +283,8 @@ class MessageWidget extends StatelessWidget {
         vertical: 4.0,
       ),
       child: Align(
-        alignment: isOwnMessage ? Alignment.centerRight : Alignment.centerLeft,
+        alignment:
+        isOwnMessage ? Alignment.centerRight : Alignment.centerLeft,
         child: Container(
           padding: EdgeInsets.all(12.0),
           decoration: BoxDecoration(
@@ -291,13 +294,24 @@ class MessageWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                message,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
+              if (imagePath != null)
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.network(
+                    imagePath!,
+                    width: 200,
+                    height: 150,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
+              if (imagePath == null)
+                Text(
+                  message,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                  ),
+                ),
               SizedBox(height: 4.0),
               Text(
                 time,
